@@ -1,66 +1,58 @@
 @model ToolStore.Models.Tool
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Создать инструмент";
 }
 
-<h1>Create</h1>
+<h1>Создать инструмент</h1>
 
-<h4>Tool</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label">Название</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="Price" class="control-label">Цена</label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="QuantityInStock" class="control-label"></label>
+            <div class="form-group mb-3">
+                <label asp-for="QuantityInStock" class="control-label">Количество на складе</label>
                 <input asp-for="QuantityInStock" class="form-control" />
                 <span asp-validation-for="QuantityInStock" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="ManufacturerId" class="control-label"></label>
-                <input asp-for="ManufacturerId" class="form-control" />
+            <div class="form-group mb-3">
+                <label asp-for="ManufacturerId" class="control-label">Производитель</label>
+                <select asp-for="ManufacturerId" class="form-control" asp-items="ViewBag.ManufacturerId">
+                    <option value="">-- Выберите производителя --</option>
+                </select>
                 <span asp-validation-for="ManufacturerId" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="Manufacturer" class="control-label"></label>
-                <input asp-for="Manufacturer" class="form-control" />
-                <span asp-validation-for="Manufacturer" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ApplicationAreaId" class="control-label"></label>
-                <input asp-for="ApplicationAreaId" class="form-control" />
+            <div class="form-group mb-3">
+                <label asp-for="ApplicationAreaId" class="control-label">Область применения</label>
+                <select asp-for="ApplicationAreaId" class="form-control" asp-items="ViewBag.ApplicationAreaId">
+                    <option value="">-- Выберите область --</option>
+                </select>
                 <span asp-validation-for="ApplicationAreaId" class="text-danger"></span>
             </div>
-
             <div class="form-group">
-                <label asp-for="ApplicationArea" class="control-label"></label>
-                <input asp-for="ApplicationArea" class="form-control" />
-                <span asp-validation-for="ApplicationArea" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Создать" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="mt-3">
+    <a asp-action="Index">Вернуться к списку</a>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

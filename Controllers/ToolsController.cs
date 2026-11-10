@@ -1,8 +1,9 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ToolStore.Models;
 using ToolStore.Data;
+using ToolStore.Models;
 
 public class ToolsController : Controller
 {
@@ -40,6 +41,8 @@ public class ToolsController : Controller
     // GET: TOOLS/Create
     public IActionResult Create()
     {
+        ViewBag.ManufacturerId = new SelectList(_context.Manufacturers, "Id", "Name");
+        ViewBag.ApplicationAreaId = new SelectList(_context.ApplicationAreas, "Id", "Name");
         return View();
     }
 
@@ -72,6 +75,8 @@ public class ToolsController : Controller
         {
             return NotFound();
         }
+        ViewBag.ManufacturerId = new SelectList(_context.Manufacturers, "Id", "Name", tool.ManufacturerId);
+        ViewBag.ApplicationAreaId = new SelectList(_context.ApplicationAreas, "Id", "Name", tool.ApplicationAreaId);
         return View(tool);
     }
 

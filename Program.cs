@@ -5,11 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+app.UseSession();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -31,5 +33,15 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    if (!context.Users.Any())
+    {
+        context.Users.Add(new ToolStore.Models.User { Name = "Админ", Login = "admin", Password = "123", Role = "Менеджер" });
+        context.Users.Add(new ToolStore.Models.User { Name = "Покупатель", Login = "buyer", Password = "123", Role = "Покупатель" });
+        context.SaveChanges();
+    }
+}
 
 app.Run();

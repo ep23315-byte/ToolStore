@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ToolStore.Models.Sale>
+@{
+    ViewData["Title"] = "Продажи";
+}
+
+<h2>Продажа инструмента</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<form asp-action="Sell" method="post" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <select name="toolId" class="form-control" asp-items="ViewBag.ToolId" required>
+                <option value="">-- Выберите инструмент --</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="number" name="quantity" class="form-control" placeholder="Кол-во" min="1" required />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Продать</button>
+        </div>
+    </div>
+</form>
+
+<h3>История продаж</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Инструмент</th>
+            <th>Кол-во</th>
+            <th>Статус</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sale in Model)
+        {
+            <tr>
+                <td>@sale.Date.ToString("g")</td>
+                <td>@sale.Tool.Name</td>
+                <td>@sale.Quantity</td>
+                <td>@sale.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

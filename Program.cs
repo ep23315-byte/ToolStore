@@ -38,8 +38,9 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     if (!context.Users.Any())
     {
-        context.Users.Add(new ToolStore.Models.User { Name = "Админ", Login = "admin", Password = "123", Role = "Менеджер" });
-        context.Users.Add(new ToolStore.Models.User { Name = "Покупатель", Login = "buyer", Password = "123", Role = "Покупатель" });
+        context.Users.Add(new ToolStore.Models.User { Name = "Иван (Менеджер)", Login = "manager", Password = "123", Role = "Менеджер" });
+        context.Users.Add(new ToolStore.Models.User { Name = "Петр (Продавец)", Login = "seller", Password = "123", Role = "Продавец" });
+        context.Users.Add(new ToolStore.Models.User { Name = "Олег (Покупатель)", Login = "buyer", Password = "123", Role = "Покупатель" });
         context.SaveChanges();
     }
 }

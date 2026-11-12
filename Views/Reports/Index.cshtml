@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ToolStore.Models.Sale>
+@{
+    ViewData["Title"] = "Отчет по продажам";
+}
+
+<h2>Отчет по продажам за период</h2>
+
+<form method="get" class="mb-4 row g-3 align-items-end">
+    <div class="col-auto">
+        <label class="form-label">С даты:</label>
+        <input type="date" name="startDate" class="form-control" value="@ViewBag.StartDate" required />
+    </div>
+    <div class="col-auto">
+        <label class="form-label">По дату:</label>
+        <input type="date" name="endDate" class="form-control" value="@ViewBag.EndDate" required />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Показать отчет</button>
+    </div>
+</form>
+
+<div class="alert alert-info">
+    <strong>Всего продано:</strong> @ViewBag.TotalCount шт. | 
+    <strong>Общая выручка:</strong> @ViewBag.TotalSum руб.
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Инструмент</th>
+            <th>Кол-во</th>
+            <th>Сумма</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="4" class="text-center">За выбранный период продаж не найдено.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var sale in Model)
+            {
+                <tr>
+                    <td>@sale.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@sale.Tool.Name</td>
+                    <td>@sale.Quantity</td>
+                    <td>@(sale.Tool.Price * sale.Quantity)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

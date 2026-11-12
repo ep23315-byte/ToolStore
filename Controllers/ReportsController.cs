@@ -23,7 +23,7 @@ namespace ToolStore.Controllers
 
             var sales = await _context.Sales
                 .Include(s => s.Tool)
-                .Where(s => s.Date >= startDate && s.Date <= endDate)
+                .Where(s => s.Date >= startDate && s.Date <= endDate.Value.AddDays(1))
                 .OrderByDescending(s => s.Date)
                 .ToListAsync();
 

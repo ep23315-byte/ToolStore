@@ -7,7 +7,12 @@
 <h1>Каталог инструментов</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Добавить новый инструмент</a>
+    @if (Context.Session.GetString("UserRole") == "Менеджер")
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Добавить новый инструмент</a>
+        </p>
+    }
 </p>
 <table class="table table-striped">
     <thead>

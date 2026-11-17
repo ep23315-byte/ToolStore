@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ToolStore.Attributes;
 using ToolStore.Data;
 using ToolStore.Models;
 
@@ -15,7 +16,6 @@ namespace ToolStore.Controllers
             _context = context;
         }
 
-        // GET: TOOLS
         public async Task<IActionResult> Index()
         {
             var tools = await _context.Tools
@@ -25,7 +25,6 @@ namespace ToolStore.Controllers
             return View(tools);
         }
 
-        // GET: TOOLS/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -39,7 +38,7 @@ namespace ToolStore.Controllers
             return View(tool);
         }
 
-        // GET: TOOLS/Create
+        [RoleAuthorize("Менеджер")]
         public IActionResult Create()
         {
             ViewBag.ManufacturerId = new SelectList(_context.Manufacturers, "Id", "Name");
@@ -47,9 +46,9 @@ namespace ToolStore.Controllers
             return View();
         }
 
-        // POST: TOOLS/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [RoleAuthorize("Менеджер")]
         public async Task<IActionResult> Create([Bind("Name,Price,QuantityInStock,ManufacturerId,ApplicationAreaId")] Tool tool)
         {
             ModelState.Remove("Manufacturer");
@@ -75,7 +74,7 @@ namespace ToolStore.Controllers
             return View(tool);
         }
 
-        // GET: TOOLS/Edit/5
+        [RoleAuthorize("Менеджер")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -88,9 +87,9 @@ namespace ToolStore.Controllers
             return View(tool);
         }
 
-        // POST: TOOLS/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [RoleAuthorize("Менеджер")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,QuantityInStock,ManufacturerId,ApplicationAreaId")] Tool tool)
         {
             if (id != tool.Id) return NotFound();
@@ -126,7 +125,7 @@ namespace ToolStore.Controllers
             return View(tool);
         }
 
-        // GET: TOOLS/Delete/5
+        [RoleAuthorize("Менеджер")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -140,9 +139,9 @@ namespace ToolStore.Controllers
             return View(tool);
         }
 
-        // POST: TOOLS/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [RoleAuthorize("Менеджер")]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var tool = await _context.Tools.FindAsync(id);

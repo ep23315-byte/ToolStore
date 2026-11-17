@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ToolStore.Attributes;
 using ToolStore.Data;
 
 namespace ToolStore.Controllers
 {
+    [RoleAuthorize("Менеджер")]
     public class ReportsController : Controller
     {
         private readonly AppDbContext _context;

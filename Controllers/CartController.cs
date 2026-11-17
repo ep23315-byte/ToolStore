@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using ToolStore.Attributes;
 using ToolStore.Data;
 using ToolStore.Models;
 
 namespace ToolStore.Controllers
 {
+    [RoleAuthorize]
     public class CartController : Controller
     {
         private readonly AppDbContext _context;

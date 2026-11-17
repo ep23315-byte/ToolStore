@@ -24,9 +24,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Tools" asp-action="Index">Каталог</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">Корзина</a>
-                        </li>
+                        @if (Context.Session.GetString("UserRole") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">Корзина</a>
+                            </li>
+                        }
 
                         @if (Context.Session.GetString("UserRole") == "Менеджер" || Context.Session.GetString("UserRole") == "Продавец")
                         {

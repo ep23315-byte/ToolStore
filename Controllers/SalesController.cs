@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ToolStore.Attributes;
 using ToolStore.Data;
 using ToolStore.Models;
 
 namespace ToolStore.Controllers
 {
+    [RoleAuthorize("Менеджер", "Продавец")]
     public class SalesController : Controller
     {
         private readonly AppDbContext _context;

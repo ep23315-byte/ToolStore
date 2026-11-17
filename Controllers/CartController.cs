@@ -88,7 +88,7 @@ namespace ToolStore.Controllers
                 var tool = await _context.Tools.FindAsync(item.ToolId);
                 if (tool == null || tool.QuantityInStock < item.Quantity)
                 {
-                    ViewBag.Error = $"Недостаточно товара '{tool?.Name}' на складе!";
+                    TempData["Error"] = $"Недостаточно товара '{tool?.Name}' на складе!";
                     return RedirectToAction("Index");
                 }
             }

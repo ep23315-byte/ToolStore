@@ -10,6 +10,7 @@
         <tr>
             <th>Дата</th>
             <th>Адрес доставки</th>
+            <th>Телефон</th>
             <th>Товары</th>
             <th>Статус</th>
             <th>Действия</th>
@@ -21,6 +22,7 @@
             <tr>
                 <td>@order.Date.ToString("g")</td>
                 <td>@order.DeliveryAddress</td>
+                <td>@order.Phone</td>
                 <td>
                     <ul>
                         @foreach (var item in order.OrderItems)

@@ -23,16 +23,18 @@ namespace ToolStore.Controllers
             ViewBag.StartDate = startDate.Value.ToString("yyyy-MM-dd");
             ViewBag.EndDate = endDate.Value.ToString("yyyy-MM-dd");
 
-            var sales = await _context.Sales
-                .Include(s => s.Tool)
-                .Where(s => s.Date >= startDate && s.Date <= endDate.Value.AddDays(1))
-                .OrderByDescending(s => s.Date)
+            var orders = await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Tool)
+                .Where(o => o.Date >= startDate && o.Date <= endDate.Value.AddDays(1))
+                .OrderByDescending(o => o.Date)
                 .ToListAsync();
 
-            ViewBag.TotalSum = sales.Sum(s => s.Tool.Price * s.Quantity);
-            ViewBag.TotalCount = sales.Sum(s => s.Quantity);
+            ViewBag.TotalSum = orders.SelectMany(o => o.OrderItems)
+                                     .Sum(oi => oi.Tool.Price * oi.Quantity);
 
-            return View(sales);
+            return View(orders);
         }
     }
 }

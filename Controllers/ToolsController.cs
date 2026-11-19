@@ -147,10 +147,17 @@ namespace ToolStore.Controllers
             var tool = await _context.Tools.FindAsync(id);
             if (tool != null)
             {
-                _context.Tools.Remove(tool);
+                try
+                {
+                    _context.Tools.Remove(tool);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    TempData["Error"] = "Невозможно удалить инструмент, так как он уже присутствует в заказах.";
+                    return RedirectToAction(nameof(Index));
+                }
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

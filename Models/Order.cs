@@ -7,6 +7,8 @@
         public string DeliveryAddress { get; set; } = string.Empty;
         public string Status { get; set; } = "Оформлен";
 
+        public string Phone { get; set; } = string.Empty;
+
         public int UserId { get; set; }
         public User? User { get; set; }
 

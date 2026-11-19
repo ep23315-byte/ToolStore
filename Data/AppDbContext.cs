@@ -13,6 +13,15 @@ namespace ToolStore.Data
         public DbSet<ApplicationArea> ApplicationAreas { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Sale> Sales { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.Tool)
+                .WithMany()
+                .HasForeignKey(oi => oi.ToolId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

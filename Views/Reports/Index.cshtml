@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ToolStore.Models.Sale>
+﻿@model IEnumerable<ToolStore.Models.Order>
 @{
     ViewData["Title"] = "Отчет по продажам";
 }
@@ -20,16 +20,17 @@
 </form>
 
 <div class="alert alert-info">
-    <strong>Всего продано:</strong> @ViewBag.TotalCount шт. | 
-    <strong>Общая выручка:</strong> @ViewBag.TotalSum руб.
+    <strong>Общая выручка за период:</strong> @ViewBag.TotalSum руб.
 </div>
 
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th>№ Заказа</th>
             <th>Дата</th>
-            <th>Инструмент</th>
-            <th>Кол-во</th>
+            <th>Заказчик</th>
+            <th>Состав заказа</th>
+            <th>Статус</th>
             <th>Сумма</th>
         </tr>
     </thead>
@@ -37,18 +38,29 @@
         @if (!Model.Any())
         {
             <tr>
-                <td colspan="4" class="text-center">За выбранный период продаж не найдено.</td>
+                <td colspan="5" class="text-center">За выбранный период заказов не найдено.</td>
             </tr>
         }
         else
         {
-            @foreach (var sale in Model)
+            @foreach (var order in Model)
             {
                 <tr>
-                    <td>@sale.Date.ToString("dd.MM.yyyy HH:mm")</td>
-                    <td>@sale.Tool.Name</td>
-                    <td>@sale.Quantity</td>
-                    <td>@(sale.Tool.Price * sale.Quantity)</td>
+                    <td>@order.Id</td>
+                    <td>@order.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@(order.User?.Name ?? "Неизвестный")</td>
+                    <td>
+                        <ul class="mb-0">
+                            @foreach (var item in order.OrderItems)
+                            {
+                                <li>@item.Tool.Name (x @item.Quantity) — @(item.Tool.Price * item.Quantity) руб.</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>@order.Status</td>
+                    <td>
+                        @order.OrderItems.Sum(oi => oi.Tool.Price * oi.Quantity) руб.
+                    </td>
                 </tr>
             }
         }

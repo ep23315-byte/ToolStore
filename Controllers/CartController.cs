@@ -78,7 +78,7 @@ namespace ToolStore.Controllers
 
         // POST: /Cart/Checkout
         [HttpPost]
-        public async Task<IActionResult> Checkout(string deliveryAddress)
+        public async Task<IActionResult> Checkout(string deliveryAddress, string phone)
         {
             var cart = GetCart();
             if (cart.Count == 0) return RedirectToAction("Index");
@@ -93,18 +93,25 @@ namespace ToolStore.Controllers
                 }
             }
 
-            // Создание заказа
+            int userId = 1;
+            var userIdStr = HttpContext.Session.GetString("UserId");
+            if (int.TryParse(userIdStr, out int parsedId))
+            {
+                userId = parsedId;
+            }
+
             var order = new Order
             {
                 Date = DateTime.Now,
                 DeliveryAddress = deliveryAddress,
+                Phone = phone,
                 Status = "Оформлен",
-                UserId = 2
+                UserId = userId
             };
+
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            // Создание позиций и списывание остатков
             foreach (var item in cart)
             {
                 var tool = await _context.Tools.FindAsync(item.ToolId);

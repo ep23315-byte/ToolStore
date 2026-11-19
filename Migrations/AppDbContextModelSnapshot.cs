@@ -79,6 +79,10 @@ namespace ToolStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -117,34 +121,6 @@ namespace ToolStore.Migrations
                     b.HasIndex("ToolId");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("ToolStore.Models.Sale", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ToolId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ToolId");
-
-                    b.ToTable("Sales");
                 });
 
             modelBuilder.Entity("ToolStore.Models.Tool", b =>
@@ -231,21 +207,10 @@ namespace ToolStore.Migrations
                     b.HasOne("ToolStore.Models.Tool", "Tool")
                         .WithMany()
                         .HasForeignKey("ToolId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Order");
-
-                    b.Navigation("Tool");
-                });
-
-            modelBuilder.Entity("ToolStore.Models.Sale", b =>
-                {
-                    b.HasOne("ToolStore.Models.Tool", "Tool")
-                        .WithMany()
-                        .HasForeignKey("ToolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("Tool");
                 });

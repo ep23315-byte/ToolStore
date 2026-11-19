@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToolStore.Data;
+using ToolStore.Models;
 
 namespace ToolStore.Controllers
 {
@@ -28,6 +29,7 @@ namespace ToolStore.Controllers
             {
                 HttpContext.Session.SetString("UserRole", user.Role);
                 HttpContext.Session.SetString("UserName", user.Name);
+                HttpContext.Session.SetString("UserId", user.Id.ToString());
                 return RedirectToAction("Index", "Home");
             }
 
@@ -35,6 +37,38 @@ namespace ToolStore.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(string name, string login, string password, string role)
+        {
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+            if (existingUser != null)
+            {
+                ViewBag.Error = "Пользователь с таким логином уже существует";
+                return View();
+            }
+
+            var newUser = new User
+            {
+                Name = name,
+                Login = login,
+                Password = password,
+            };
+
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
+
+            HttpContext.Session.SetString("UserRole", newUser.Role);
+            HttpContext.Session.SetString("UserName", newUser.Name);
+
+            return RedirectToAction("Index", "Home");
+        }
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();

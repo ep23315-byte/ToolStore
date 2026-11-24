@@ -8,11 +8,11 @@ namespace ToolStore.Controllers
     {
         public IActionResult Index()
         {
-            return View();
-        }
+            if (HttpContext.Session.GetString("UserRole") != null)
+            {
+                return RedirectToAction("Index", "Tools");
+            }
 
-        public IActionResult Privacy()
-        {
             return View();
         }
 

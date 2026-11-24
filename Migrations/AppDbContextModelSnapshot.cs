@@ -134,6 +134,9 @@ namespace ToolStore.Migrations
                     b.Property<int>("ApplicationAreaId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("ManufacturerId")
                         .HasColumnType("int");
 
@@ -207,7 +210,7 @@ namespace ToolStore.Migrations
                     b.HasOne("ToolStore.Models.Tool", "Tool")
                         .WithMany()
                         .HasForeignKey("ToolId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");

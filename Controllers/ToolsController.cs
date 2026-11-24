@@ -19,6 +19,7 @@ namespace ToolStore.Controllers
         public async Task<IActionResult> Index()
         {
             var tools = await _context.Tools
+                .Where(t => !t.IsDeleted)   
                 .Include(t => t.Manufacturer)
                 .Include(t => t.ApplicationArea)
                 .ToListAsync();
@@ -147,16 +148,8 @@ namespace ToolStore.Controllers
             var tool = await _context.Tools.FindAsync(id);
             if (tool != null)
             {
-                try
-                {
-                    _context.Tools.Remove(tool);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException)
-                {
-                    TempData["Error"] = "Невозможно удалить инструмент, так как он уже присутствует в заказах.";
-                    return RedirectToAction(nameof(Index));
-                }
+                tool.IsDeleted = true;
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
         }

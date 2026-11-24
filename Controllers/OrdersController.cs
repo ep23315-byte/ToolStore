@@ -18,6 +18,7 @@ namespace ToolStore.Controllers
         public async Task<IActionResult> Index()
         {
             var orders = await _context.Orders
+                .Include(o => o.User)
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Tool)
                 .OrderByDescending(o => o.Date)

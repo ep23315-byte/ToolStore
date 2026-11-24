@@ -1,34 +1,25 @@
 @model ToolStore.Models.ApplicationArea
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Удалить область применения";
 }
 
-<h1>Delete</h1>
+<h1>Удалить область применения</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Вы уверены, что хотите удалить эту область?</h3>
 <div>
-    <h4>ToolStore.Models.ApplicationArea</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+        <dt class="col-sm-2">Название</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Name)</dd>
+        
+        <dt class="col-sm-2">Описание</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Description)</dd>
     </dl>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
+    
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Удалить" class="btn btn-danger" /> |
+        <a asp-action="Index">Вернуться к списку</a>
     </form>
 </div>

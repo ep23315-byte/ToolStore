@@ -8,6 +8,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Заказчик</th>
             <th>Дата</th>
             <th>Адрес доставки</th>
             <th>Телефон</th>
@@ -20,6 +21,7 @@
         @foreach (var order in Model)
         {
             <tr>
+                <td>@(order.User?.Name ?? "Неизвестный")</td>
                 <td>@order.Date.ToString("g")</td>
                 <td>@order.DeliveryAddress</td>
                 <td>@order.Phone</td>

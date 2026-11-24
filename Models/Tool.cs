@@ -12,5 +12,6 @@
 
         public int ApplicationAreaId { get; set; }
         public ApplicationArea? ApplicationArea { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

@@ -59,6 +59,7 @@ namespace ToolStore.Controllers
                 Name = name,
                 Login = login,
                 Password = password,
+                Role = "Покупатель"
             };
 
             _context.Users.Add(newUser);
@@ -66,6 +67,7 @@ namespace ToolStore.Controllers
 
             HttpContext.Session.SetString("UserRole", newUser.Role);
             HttpContext.Session.SetString("UserName", newUser.Name);
+            HttpContext.Session.SetString("UserId", newUser.Id.ToString());
 
             return RedirectToAction("Index", "Home");
         }
